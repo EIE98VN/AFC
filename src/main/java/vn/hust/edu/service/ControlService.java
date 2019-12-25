@@ -1,17 +1,16 @@
 package vn.hust.edu.service;
 
+import hust.soict.se.gate.Gate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import vn.hust.edu.FareCalculate;
 import vn.hust.edu.GeneralUtil;
-import vn.hust.edu.InLineFareCalculate;
 import vn.hust.edu.constant.Message;
 import vn.hust.edu.constant.Status;
 import vn.hust.edu.constant.Type;
 import vn.hust.edu.model.Certificate;
 import vn.hust.edu.model.PrepaidCard;
 import vn.hust.edu.model.Station;
-import vn.hust.edu.model.UsingHistory;
+import vn.hust.edu.model.UsageHistory;
 import vn.hust.edu.model.support.ResponseBody;
 
 @Service
@@ -29,6 +28,8 @@ public class ControlService {
 
   public ResponseBody checkIn(String barCode, String location) {
 
+//    Gate gate = Gate.getInstance();
+
     Station embarkation = stationService.findByLocation(location);
 
     if (embarkation == null)
@@ -44,18 +45,20 @@ public class ControlService {
       return GeneralUtil.createResponse(
           Status.FAIL, certificate, Type.CERTIFICATE, Message.ALREADY_CHECKIN);
 
-    UsingHistory history = historyService.findFirstByCertificateId(certificate.getId());
-    ResponseBody responseBody = certificate.checkInResponse(embarkation, history);
+    ResponseBody responseBody = certificate.checkInResponse(embarkation);
 
     if (responseBody.getStatus() == 1) {
       responseBody =
-          createHistoryService.createCheckInHistory(responseBody, certificate.getId(), embarkation);
+          createHistoryService.createCheckInHistory(responseBody, certificate, embarkation);
+//      gate.open();
     }
 
     return responseBody;
   }
 
   public ResponseBody checkOut(String barCode, String location) {
+
+//    Gate gate = Gate.getInstance();
 
     Station disembarkation = stationService.findByLocation(location);
 
@@ -73,27 +76,24 @@ public class ControlService {
       return GeneralUtil.createResponse(
           Status.FAIL, certificate, Type.CERTIFICATE, Message.NOT_CHECKIN);
 
-    UsingHistory history = historyService.findInStation(certificate.getId());
-    ResponseBody responseBody = certificate.checkOutResponse(disembarkation, history);
+    ResponseBody responseBody = certificate.checkOutResponse(disembarkation);
 
     if (responseBody.getStatus() == 1) {
       if (certificate instanceof PrepaidCard) {
-        PrepaidCard prepaidCard = (PrepaidCard) certificate;
-        FareCalculate fareCalculate = new InLineFareCalculate();
-        float fare = fareCalculate.calculate(history.getEmbarkation(), disembarkation);
-        prepaidCard.decreaseBalance(fare);
-        prepaidCardService.save(prepaidCard);
+        prepaidCardService.save((PrepaidCard) responseBody.getData());
       }
       responseBody =
           createHistoryService.createCheckOutHistory(
-              responseBody, certificate.getId(), disembarkation);
+              responseBody, certificate, disembarkation);
+
+//      gate.open();
     }
 
     return responseBody;
   }
 
   private boolean isInStation(String cardTicketId) {
-    UsingHistory history = historyService.findInStation(cardTicketId);
+    UsageHistory history = historyService.findInStation(cardTicketId);
     if (history != null) return true;
     return false;
   }

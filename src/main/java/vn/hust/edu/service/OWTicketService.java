@@ -8,20 +8,20 @@ import vn.hust.edu.repository.OWTicketRepository;
 import javax.transaction.Transactional;
 
 @Service
-public class OWTicketService {
+public class OWTicketService implements CertificateService<OWTicket>{
 
   @Autowired OWTicketRepository repository;
 
-  OWTicket findByID(String id) {
+  public OWTicket findById(String id) {
     return repository.findById(id);
   }
 
-  OWTicket findByCode(String code) {
+  public OWTicket findByCode(String code) {
     return repository.findByCode(code);
   }
 
   @Transactional
-  OWTicket save(OWTicket owTicket) {
+  public OWTicket save(OWTicket owTicket) {
     return repository.save(owTicket);
   }
 }

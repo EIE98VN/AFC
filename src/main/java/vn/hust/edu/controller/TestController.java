@@ -20,11 +20,6 @@ public class TestController {
     @Autowired
     ControlService controlService;
 
-    @GetMapping("/test")
-    public OWTicket test(){
-        return owTicketRepository.findByCode("2fe2882c1636c623");
-    }
-
     @RequestMapping(value="/checkIn", method = RequestMethod.GET)
     public ResponseBody checkIn(
             @RequestParam(name = "barCode") String barCode,

@@ -3,7 +3,7 @@ package vn.hust.edu.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import vn.hust.edu.model.UsingHistory;
+import vn.hust.edu.model.UsageHistory;
 import vn.hust.edu.repository.UsingHistoryRepository;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class UsingHistoryService {
    * @param history an instance of using history
    * @return saved instance of using history
    */
-  public UsingHistory save(UsingHistory history) {
+  public UsageHistory save(UsageHistory history) {
     return usingHistoryRepository.save(history);
   }
 
@@ -25,7 +25,7 @@ public class UsingHistoryService {
    * @param ticketCardId ticket/card id in string form
    * @return instance of using history corresponding to ticket/card id found
    */
-  public UsingHistory findFirstByCertificateId(String ticketCardId) {
+  public UsageHistory findFirstByCertificateId(String ticketCardId) {
     return usingHistoryRepository.findFirstByCertificateId(ticketCardId);
   }
 
@@ -33,20 +33,9 @@ public class UsingHistoryService {
    * @param ticketCardId ticket/card id in string form
    * @return instance of using history
    */
-  public UsingHistory findInStation(String ticketCardId) {
+  public UsageHistory findInStation(String certificateId) {
     return usingHistoryRepository
         .findFirstByCertificateIdAndEmbarkationNotNullAndDisembarkationNull(
-            ticketCardId);
-  }
-
-  /**
-   * @param ticketCard ticket/card id in string form
-   * @return instance of using history
-   */
-  public UsingHistory findInStationFirstTime(String ticketCardId) {
-    List<UsingHistory> usingHistoryList =
-        usingHistoryRepository.findByTicketCardIdFirstTime(ticketCardId, PageRequest.of(0, 1));
-    if (usingHistoryList.size() == 0) return null;
-    return usingHistoryList.get(0);
+            certificateId);
   }
 }

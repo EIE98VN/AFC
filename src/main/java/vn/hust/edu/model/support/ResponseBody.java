@@ -2,7 +2,7 @@ package vn.hust.edu.model.support;
 
 import lombok.Data;
 import vn.hust.edu.model.Certificate;
-import vn.hust.edu.model.UsingHistory;
+import vn.hust.edu.model.UsageHistory;
 
 @Data
 public class ResponseBody {
@@ -15,5 +15,5 @@ public class ResponseBody {
 
   Certificate data;
 
-  UsingHistory history;
+  UsageHistory history;
 }

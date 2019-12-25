@@ -11,4 +11,5 @@ public interface OWTicketRepository extends PagingAndSortingRepository<OWTicket,
     OWTicket findByCode(String code);
 
     OWTicket save(OWTicket owTicket);
+
 }

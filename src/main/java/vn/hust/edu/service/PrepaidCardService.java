@@ -6,19 +6,19 @@ import vn.hust.edu.model.PrepaidCard;
 import vn.hust.edu.repository.PrepaidCardRepository;
 
 @Service
-public class PrepaidCardService {
+public class PrepaidCardService implements CertificateService<PrepaidCard>{
 
   @Autowired PrepaidCardRepository repository;
 
-  PrepaidCard findById(String id) {
+  public PrepaidCard findById(String id) {
     return repository.findById(id);
   }
 
-  PrepaidCard findByCode(String code) {
+  public PrepaidCard findByCode(String code) {
     return repository.findByCode(code);
   }
 
-  PrepaidCard save(PrepaidCard prepaidCard) {
+  public PrepaidCard save(PrepaidCard prepaidCard) {
     return repository.save(prepaidCard);
   }
 }

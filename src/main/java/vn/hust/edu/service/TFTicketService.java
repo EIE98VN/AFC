@@ -6,19 +6,20 @@ import vn.hust.edu.model.TFTicket;
 import vn.hust.edu.repository.TFTicketRepository;
 
 @Service
-public class TFTicketService {
+public class TFTicketService implements CertificateService<TFTicket>{
 
   @Autowired TFTicketRepository repository;
 
-  TFTicket findById(String id) {
+  public TFTicket findById(String id) {
     return repository.findById(id);
   }
 
-  TFTicket findByCode(String code) {
+  public TFTicket findByCode(String code) {
     return repository.findByCode(code);
   }
 
-  TFTicket save(TFTicket tfTicket) {
+  public TFTicket save(TFTicket tfTicket) {
     return repository.save(tfTicket);
   }
+
 }

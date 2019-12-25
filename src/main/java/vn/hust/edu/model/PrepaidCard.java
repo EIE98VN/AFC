@@ -13,50 +13,29 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(
-    name = "card",
+    name = "prepaid_card",
     indexes = {@Index(name = "idx_code", columnList = "code", unique = true)})
 public class PrepaidCard extends Certificate {
 
-  @Column(name = "activated_at")
-  private Date activatedAt;
-
-  @Column(name = "expired_at")
-  private Date expiredAt;
-
   @Column(name = "balance")
   private float balance;
-
-  public Date getActivatedAt() {
-    return activatedAt;
-  }
-
-  public void setActivatedAt(Date activatedAt) {
-    this.activatedAt = activatedAt;
-  }
-
-  public Date getExpiredAt() {
-    return expiredAt;
-  }
-
-  public void setExpiredAt(Date expiredAt) {
-    this.expiredAt = expiredAt;
-  }
 
   public float getBalance() {
     return balance;
   }
 
-  public void decreaseBalance(float balance) {
-    this.balance -= balance;
+  public void decreaseBalance(float fare) {
+    this.balance = this.balance - fare;
   }
 
   @Override
-  public ResponseBody checkInResponse(Station embarkation, UsingHistory history) {
-
+  public ResponseBody checkInResponse(Station embarkation) {
     if (isCardInsufficient()) {
       return GeneralUtil.createResponse(Status.FAIL, this, Type.CARD, Message.INSUFFICIENT_CARD);
     }
@@ -64,14 +43,17 @@ public class PrepaidCard extends Certificate {
   }
 
   @Override
-  public ResponseBody checkOutResponse(Station disembarkation, UsingHistory history) {
+  public ResponseBody checkOutResponse(Station disembarkation) {
+    List<UsageHistory> usageHistories = new ArrayList<UsageHistory>(this.getUsageHistories());
+    int historyLength = usageHistories.size();
     FareCalculate fareCalculate = new InLineFareCalculate();
-    float fare = fareCalculate.calculate(history.getEmbarkation(), disembarkation);
-    if (fare > this.balance)
-      return GeneralUtil.createResponse(
-              Status.FAIL, this, Type.CARD, Message.INSUFFICIENT_CARD);
-    return GeneralUtil.createResponse(
-            Status.SUCCESS, this, Type.CARD, Message.SUCCESSFUL_CHECKOUT);
+    float fare = fareCalculate.calculate(usageHistories.get(historyLength-1).getEmbarkation(), disembarkation);
+    System.out.println("FARE: "+ fare);
+    if (fare > this.balance){
+      return GeneralUtil.createResponse(Status.FAIL, this, Type.CARD, Message.INSUFFICIENT_CARD);
+    }
+    this.decreaseBalance(fare);
+    return GeneralUtil.createResponse(Status.SUCCESS, this, Type.CARD, Message.SUCCESSFUL_CHECKOUT);
   }
 
   private boolean isCardInsufficient() {

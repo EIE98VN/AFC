@@ -9,6 +9,8 @@ import vn.hust.edu.constant.Type;
 import vn.hust.edu.model.support.ResponseBody;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(
@@ -54,9 +56,10 @@ public class OWTicket extends Certificate {
   }
 
   @Override
-  public ResponseBody checkInResponse(Station embarkation, UsingHistory history) {
-    if(isUsed(history))
-      return GeneralUtil.createResponse(Status.FAIL, this, Type.TICKET_ONEWAY, Message.ALREADY_USED);
+  public ResponseBody checkInResponse(Station embarkation) {
+    if (isUsed())
+      return GeneralUtil.createResponse(
+          Status.FAIL, this, Type.TICKET_ONEWAY, Message.ALREADY_USED);
     if (!isValidEmbarkation(embarkation))
       return GeneralUtil.createResponse(
           Status.FAIL, this, Type.TICKET_ONEWAY, Message.INVALID_EMBARKATION);
@@ -65,9 +68,10 @@ public class OWTicket extends Certificate {
   }
 
   @Override
-  public ResponseBody checkOutResponse(Station disembarkation, UsingHistory history) {
+  public ResponseBody checkOutResponse(Station disembarkation) {
+    List<UsageHistory> usageHistories = new ArrayList<UsageHistory>(this.getUsageHistories());
     FareCalculate fareCalculate = new InLineFareCalculate();
-    float fare = fareCalculate.calculate(history.getEmbarkation(), disembarkation);
+    float fare = fareCalculate.calculate(usageHistories.get(0).getEmbarkation(), disembarkation);
     if (fare > this.fare)
       return GeneralUtil.createResponse(
           Status.FAIL, this, Type.TICKET_ONEWAY, Message.INSUFFICIENT_ONEWAY_TICKET);
@@ -83,9 +87,7 @@ public class OWTicket extends Certificate {
         || (embarkationDistance < leftLimit && embarkationDistance < rightLimit));
   }
 
-  private boolean isUsed(UsingHistory history){
-    if(history!=null)
-      return true;
-    return false;
+  private boolean isUsed() {
+    return this.getUsageHistories().size() != 0;
   }
 }
