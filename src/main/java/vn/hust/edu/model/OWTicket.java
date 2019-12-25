@@ -56,11 +56,11 @@ public class OWTicket extends Certificate {
   }
 
   @Override
-  public ResponseBody checkInResponse(Station embarkation) {
+  public ResponseBody checkInResponse(Station embarkation, Line line) {
     if (isUsed())
       return GeneralUtil.createResponse(
           Status.FAIL, this, Type.TICKET_ONEWAY, Message.ALREADY_USED);
-    if (!isValidEmbarkation(embarkation))
+    if (!isValidEmbarkation(embarkation, line))
       return GeneralUtil.createResponse(
           Status.FAIL, this, Type.TICKET_ONEWAY, Message.INVALID_EMBARKATION);
     return GeneralUtil.createResponse(
@@ -68,10 +68,10 @@ public class OWTicket extends Certificate {
   }
 
   @Override
-  public ResponseBody checkOutResponse(Station disembarkation) {
+  public ResponseBody checkOutResponse(Station disembarkation, Line line) {
     List<UsageHistory> usageHistories = new ArrayList<UsageHistory>(this.getUsageHistories());
     FareCalculate fareCalculate = new InLineFareCalculate();
-    float fare = fareCalculate.calculate(usageHistories.get(0).getEmbarkation(), disembarkation);
+    float fare = fareCalculate.calculate(usageHistories.get(0).getEmbarkation(), disembarkation, line);
     if (fare > this.fare)
       return GeneralUtil.createResponse(
           Status.FAIL, this, Type.TICKET_ONEWAY, Message.INSUFFICIENT_ONEWAY_TICKET);
@@ -79,10 +79,20 @@ public class OWTicket extends Certificate {
         Status.SUCCESS, this, Type.TICKET_ONEWAY, Message.SUCCESSFUL_CHECKOUT);
   }
 
-  private boolean isValidEmbarkation(Station embarkation) {
-    float embarkationDistance = embarkation.getDistance();
-    float leftLimit = this.embarkation.getDistance();
-    float rightLimit = this.disembarkation.getDistance();
+  private boolean isValidEmbarkation(Station embarkation, Line line) {
+
+    Distance embarkationStationDistance = embarkation.findByLineId(line.getId());
+    Distance leftStationDistance = this.embarkation.findByLineId(line.getId());
+    Distance rightStationDistance = this.disembarkation.findByLineId(line.getId());
+
+    if (embarkationStationDistance == null
+        || leftStationDistance == null
+        || rightStationDistance == null) return false;
+
+    float embarkationDistance = embarkationStationDistance.getDistance();
+    float leftLimit = leftStationDistance.getDistance();
+    float rightLimit = rightStationDistance.getDistance();
+
     return !((embarkationDistance > leftLimit && embarkationDistance > rightLimit)
         || (embarkationDistance < leftLimit && embarkationDistance < rightLimit));
   }

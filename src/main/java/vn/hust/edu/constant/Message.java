@@ -31,4 +31,7 @@ public class Message {
   public static final String ALREADY_USED = "Ticket is already used !";
 
   public static final String INVALID_CERTIFICATE = "Certificate is invalid!";
+
+  public static final String LINE_NOT_FOUND = "Line not found";
+
 }

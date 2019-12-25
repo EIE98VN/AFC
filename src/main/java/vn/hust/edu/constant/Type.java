@@ -13,4 +13,6 @@ public class Type {
   public static final String DISEMBARKATION = "Disembarkation";
 
   public static final String CERTIFICATE = "Certificate";
+
+  public static final String LINE = "line";
 }

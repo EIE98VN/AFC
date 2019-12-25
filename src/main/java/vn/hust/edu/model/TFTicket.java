@@ -28,7 +28,7 @@ public class TFTicket extends Certificate {
   }
 
   @Override
-  public ResponseBody checkInResponse(Station embarkation) {
+  public ResponseBody checkInResponse(Station embarkation, Line line) {
     if (isTicketExpired())
       GeneralUtil.createResponse(Status.FAIL, this, Type.TICKET_24H, Message.EXPIRED_24H_TICKET);
     return GeneralUtil.createResponse(
@@ -36,7 +36,7 @@ public class TFTicket extends Certificate {
   }
 
   @Override
-  public ResponseBody checkOutResponse(Station disembarkation) {
+  public ResponseBody checkOutResponse(Station disembarkation, Line line) {
     return GeneralUtil.createResponse(
         Status.SUCCESS, this, Type.TICKET_24H, Message.SUCCESSFUL_CHECKOUT);
   }

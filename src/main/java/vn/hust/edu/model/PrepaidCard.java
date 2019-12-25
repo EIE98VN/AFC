@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -35,7 +34,7 @@ public class PrepaidCard extends Certificate {
   }
 
   @Override
-  public ResponseBody checkInResponse(Station embarkation) {
+  public ResponseBody checkInResponse(Station embarkation, Line line) {
     if (isCardInsufficient()) {
       return GeneralUtil.createResponse(Status.FAIL, this, Type.CARD, Message.INSUFFICIENT_CARD);
     }
@@ -43,11 +42,11 @@ public class PrepaidCard extends Certificate {
   }
 
   @Override
-  public ResponseBody checkOutResponse(Station disembarkation) {
+  public ResponseBody checkOutResponse(Station disembarkation, Line line) {
     List<UsageHistory> usageHistories = new ArrayList<UsageHistory>(this.getUsageHistories());
     int historyLength = usageHistories.size();
     FareCalculate fareCalculate = new InLineFareCalculate();
-    float fare = fareCalculate.calculate(usageHistories.get(historyLength-1).getEmbarkation(), disembarkation);
+    float fare = fareCalculate.calculate(usageHistories.get(historyLength-1).getEmbarkation(), disembarkation, line);
     System.out.println("FARE: "+ fare);
     if (fare > this.balance){
       return GeneralUtil.createResponse(Status.FAIL, this, Type.CARD, Message.INSUFFICIENT_CARD);

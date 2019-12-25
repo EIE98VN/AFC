@@ -42,7 +42,7 @@ public abstract class Certificate {
         this.code = code;
     }
 
-    public abstract ResponseBody checkInResponse(Station embarkation);
+    public abstract ResponseBody checkInResponse(Station embarkation, Line line);
 
-    public abstract ResponseBody checkOutResponse(Station disembarkation);
+    public abstract ResponseBody checkOutResponse(Station disembarkation, Line line);
 }
