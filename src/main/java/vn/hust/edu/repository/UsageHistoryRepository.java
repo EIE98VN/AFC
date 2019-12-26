@@ -9,7 +9,7 @@ import vn.hust.edu.model.UsageHistory;
 
 import java.util.List;
 
-public interface UsingHistoryRepository
+public interface UsageHistoryRepository
     extends PagingAndSortingRepository<UsageHistory, Integer>,
         JpaSpecificationExecutor<UsageHistory> {
 

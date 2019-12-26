@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result for 24h Ticket Check-out</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <!--navbar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Check-out Station</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/checkIn">Check-in</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/checkOut">Check-out<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--end navbar-->
+<!--    <h1>See you again!</h1>-->
+<!--    <div>-->
+<!--        <p>Ticket ID:</p>-->
+<!--        <p th:text="${response.data.id}"></p>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <p>Ticket Code:</p>-->
+<!--        <p th:text="${response.data.code}"></p>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <p>Embarkation:</p>-->
+<!--        <p th:text="${embarkation}"></p>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <p>Disembarkation:</p>-->
+<!--        <p th:text="${disembarkation}"></p>-->
+<!--    </div>-->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div>
+                    <h1>See you again!</h1>
+                </div>
+                <div class="card">
+                    <div class="card-header" th:text="${response.data.id}">Ticket ID:</div>
+                    <div class="card-body">
+                        <div>
+                            <form action="#">
+                                <div class="form-group">
+                                    <label for="code">Code</label>
+                                    <div>
+                                        <input class="form-control" type="text" name="code" th:attr="value=${response.data.code}" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="embarkation">Embarkation:</label>
+                                    <div>
+                                        <input class="form-control" type="text" name="embarkation" th:attr="value=${embarkation}" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="disembarkation">Disembarkation:</label>
+                                    <div>
+                                        <input class="form-control" type="text" name="disembarkation" th:attr="value=${disembarkation}" disabled>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

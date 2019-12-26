@@ -32,7 +32,7 @@ public class TFTicket extends Certificate {
     if (isTicketExpired())
       GeneralUtil.createResponse(Status.FAIL, this, Type.TICKET_24H, Message.EXPIRED_24H_TICKET);
     return GeneralUtil.createResponse(
-        Status.FAIL, this, Type.TICKET_24H, Message.SUCCESSFUL_CHECKIN);
+        Status.SUCCESS, this, Type.TICKET_24H, Message.SUCCESSFUL_CHECKIN);
   }
 
   @Override
@@ -41,6 +41,11 @@ public class TFTicket extends Certificate {
         Status.SUCCESS, this, Type.TICKET_24H, Message.SUCCESSFUL_CHECKOUT);
   }
 
+  /**
+   * Check if ticket is expired or not
+   *
+   * @return true if ticket is expired, false otherwise
+   */
   private boolean isTicketExpired() {
     List<UsageHistory> usageHistories = new ArrayList<UsageHistory>(this.getUsageHistories());
     if (usageHistories.size() == 0) return false;

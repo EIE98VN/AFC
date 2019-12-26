@@ -62,6 +62,11 @@ public class PrepaidCard extends Certificate {
     return GeneralUtil.createResponse(Status.SUCCESS, this, Type.CARD, Message.SUCCESSFUL_CHECKOUT);
   }
 
+  /**
+   * Check if card has enough money or not
+   *
+   * @return true if card is insufficient, false otherwise
+   */
   private boolean isCardInsufficient() {
     return this.balance < Fare.BASE_FARE;
   }

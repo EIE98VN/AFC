@@ -42,7 +42,20 @@ public abstract class Certificate {
         this.code = code;
     }
 
+    /**
+     *
+     * @param embarkation embarkation station that passenger checkin
+     * @param line line that passenger check in
+     * @return status of check in
+     */
     public abstract ResponseBody checkInResponse(Station embarkation, Line line);
 
+
+    /**
+     *
+     * @param disembarkation embarkation station that passenger checkout
+     * @param line line that passenger check in
+     * @return status of check out
+     */
     public abstract ResponseBody checkOutResponse(Station disembarkation, Line line);
 }

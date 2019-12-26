@@ -86,6 +86,13 @@ public class OWTicket extends Certificate {
         Status.SUCCESS, this, Type.TICKET_ONEWAY, Message.SUCCESSFUL_CHECKOUT);
   }
 
+  /**
+   * Check if embarkation is valid when check in or not
+   *
+   * @param line embarkation line
+   * @param embarkation  embarkation station
+   * @return status whether oneway ticket was checked-in in the specified range of stations
+   */
   private boolean isValidEmbarkation(Station embarkation, Line line) {
 
     Distance embarkationStationDistance = embarkation.findByLineId(line.getId());
@@ -104,6 +111,10 @@ public class OWTicket extends Certificate {
         || (embarkationDistance < leftLimit && embarkationDistance < rightLimit));
   }
 
+  /**
+   * Check is ticket is used
+   * @return true if ticket is used, false otherwise
+   */
   private boolean isUsed() {
     return this.getUsageHistories().size() != 0;
   }

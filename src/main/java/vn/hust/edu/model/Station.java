@@ -21,6 +21,11 @@ public class Station {
   @OneToMany(mappedBy = "station")
   Collection<Distance> distances;
 
+  /**
+   *
+   * @param lineId id of the line
+   * @return Distance object that has the lineId, null if not found
+   */
   public Distance findByLineId(int lineId) {
     for (Distance distance : distances) {
       if (distance.getLine().getId() == lineId) return distance;

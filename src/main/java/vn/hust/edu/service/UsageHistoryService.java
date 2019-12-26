@@ -1,17 +1,15 @@
 package vn.hust.edu.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import vn.hust.edu.model.UsageHistory;
-import vn.hust.edu.repository.UsingHistoryRepository;
-
-import java.util.List;
+import vn.hust.edu.repository.UsageHistoryRepository;
 
 @Service
-public class UsingHistoryService {
+public class UsageHistoryService {
 
-  @Autowired UsingHistoryRepository usingHistoryRepository;
+  @Autowired
+  UsageHistoryRepository usingHistoryRepository;
 
   /**
    * @param history an instance of using history

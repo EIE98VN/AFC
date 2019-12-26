@@ -12,8 +12,16 @@ import java.util.Date;
 @Service
 public class CreateHistoryService {
 
-  @Autowired UsingHistoryService historyService;
+  @Autowired
+  UsageHistoryService historyService;
 
+  /**
+   *
+   * @param responseBody
+   * @param certificate
+   * @param embarkation
+   * @return
+   */
   public ResponseBody createCheckInHistory(
           ResponseBody responseBody, Certificate certificate, Station embarkation) {
 
@@ -27,6 +35,13 @@ public class CreateHistoryService {
     return responseBody;
   }
 
+  /**
+   *
+   * @param responseBody
+   * @param certificate
+   * @param disembarkation
+   * @return
+   */
   public ResponseBody createCheckOutHistory(
       ResponseBody responseBody, Certificate certificate, Station disembarkation) {
 

@@ -12,7 +12,7 @@ import vn.hust.edu.model.PrepaidCard;
 import vn.hust.edu.model.TFTicket;
 
 @Service
-public class GetPaymentTypeService {
+public class GetCertificateTypeService {
 
   @Autowired PrepaidCardService prepaidCardService;
 
