@@ -43,12 +43,19 @@ public class PrepaidCard extends Certificate {
 
   @Override
   public ResponseBody checkOutResponse(Station disembarkation, Line line) {
+
     List<UsageHistory> usageHistories = new ArrayList<UsageHistory>(this.getUsageHistories());
     int historyLength = usageHistories.size();
+    UsageHistory latestUsage = usageHistories.get(historyLength - 1);
+    Distance embarkationDistance = latestUsage.getEmbarkation().findByLineId(line.getId());
+
+    if (embarkationDistance == null)
+      return GeneralUtil.createResponse(Status.FAIL, Message.NOT_ON_SAME_LINE, Type.LINE);
     FareCalculate fareCalculate = new InLineFareCalculate();
-    float fare = fareCalculate.calculate(usageHistories.get(historyLength-1).getEmbarkation(), disembarkation, line);
-    System.out.println("FARE: "+ fare);
-    if (fare > this.balance){
+    float fare =
+        fareCalculate.calculate(
+            usageHistories.get(historyLength - 1).getEmbarkation(), disembarkation, line);
+    if (fare > this.balance) {
       return GeneralUtil.createResponse(Status.FAIL, this, Type.CARD, Message.INSUFFICIENT_CARD);
     }
     this.decreaseBalance(fare);
@@ -58,4 +65,5 @@ public class PrepaidCard extends Certificate {
   private boolean isCardInsufficient() {
     return this.balance < Fare.BASE_FARE;
   }
+
 }

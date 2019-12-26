@@ -34,4 +34,5 @@ public class Message {
 
   public static final String LINE_NOT_FOUND = "Line not found";
 
+  public static final String NOT_ON_SAME_LINE = "Check in and check out not on the same line";
 }

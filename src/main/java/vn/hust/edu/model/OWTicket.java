@@ -70,6 +70,13 @@ public class OWTicket extends Certificate {
   @Override
   public ResponseBody checkOutResponse(Station disembarkation, Line line) {
     List<UsageHistory> usageHistories = new ArrayList<UsageHistory>(this.getUsageHistories());
+
+    UsageHistory latestUsage = usageHistories.get(0);
+    Distance embarkationDistance = latestUsage.getEmbarkation().findByLineId(line.getId());
+
+    if (embarkationDistance == null)
+      return GeneralUtil.createResponse(Status.FAIL, Message.NOT_ON_SAME_LINE, Type.LINE);
+
     FareCalculate fareCalculate = new InLineFareCalculate();
     float fare = fareCalculate.calculate(usageHistories.get(0).getEmbarkation(), disembarkation, line);
     if (fare > this.fare)
