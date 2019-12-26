@@ -20,7 +20,7 @@ public class GetCertificateTypeService {
 
   @Autowired OWTicketService owTicketService;
 
-  public Certificate getPaymentType(String barCode) {
+  public Certificate getCertificateType(String barCode) {
     try {
       if (GeneralUtil.isCard(barCode)) {
 

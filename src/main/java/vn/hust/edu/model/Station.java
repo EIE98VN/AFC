@@ -18,7 +18,7 @@ public class Station {
   private String location;
 
   @JsonManagedReference
-  @OneToMany(mappedBy = "station")
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "station")
   Collection<Distance> distances;
 
   /**

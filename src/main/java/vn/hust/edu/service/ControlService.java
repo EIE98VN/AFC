@@ -12,15 +12,13 @@ import vn.hust.edu.model.support.ResponseBody;
 @Service
 public class ControlService {
 
-  @Autowired
-  UsageHistoryService historyService;
+  @Autowired UsageHistoryService historyService;
 
   @Autowired StationService stationService;
 
   @Autowired PrepaidCardService prepaidCardService;
 
-  @Autowired
-  GetCertificateTypeService getCertificateTypeService;
+  @Autowired GetCertificateTypeService getCertificateTypeService;
 
   @Autowired CreateHistoryService createHistoryService;
 
@@ -31,7 +29,6 @@ public class ControlService {
    * @param location station location in string form
    * @param lineName name of line that is checked in
    * @return status of the check-in in the form of ResponseBody
-   *
    */
   public ResponseBody checkIn(String barCode, String location, String lineName) {
 
@@ -47,7 +44,7 @@ public class ControlService {
     if (line == null)
       return GeneralUtil.createResponse(Status.FAIL, Message.LINE_NOT_FOUND, Type.LINE);
 
-    Certificate certificate = getCertificateTypeService.getPaymentType(barCode);
+    Certificate certificate = getCertificateTypeService.getCertificateType(barCode);
 
     if (certificate == null)
       return GeneralUtil.createResponse(
@@ -73,7 +70,6 @@ public class ControlService {
    * @param location station location in string form
    * @param lineName name of line that is checked out
    * @return status of the check-in in the form of ResponseBody
-   *
    */
   public ResponseBody checkOut(String barCode, String location, String lineName) {
 
@@ -90,7 +86,7 @@ public class ControlService {
     if (line == null)
       return GeneralUtil.createResponse(Status.FAIL, Message.LINE_NOT_FOUND, Type.LINE);
 
-    Certificate certificate = getCertificateTypeService.getPaymentType(barCode);
+    Certificate certificate = getCertificateTypeService.getCertificateType(barCode);
 
     if (certificate == null)
       return GeneralUtil.createResponse(
@@ -116,7 +112,7 @@ public class ControlService {
   }
 
   /**
-   * @param cardTicketId ticket/card id in string form
+   * @param certificateId ticket/card id in string form
    * @return status whether card is currently checked-in or not in boolean
    */
   private boolean isInStation(String certificateId) {

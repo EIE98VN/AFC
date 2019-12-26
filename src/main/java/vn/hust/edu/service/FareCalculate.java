@@ -1,4 +1,4 @@
-package vn.hust.edu;
+package vn.hust.edu.service;
 
 import vn.hust.edu.model.Line;
 import vn.hust.edu.model.Station;

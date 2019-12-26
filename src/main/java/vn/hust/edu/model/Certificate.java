@@ -20,7 +20,7 @@ public abstract class Certificate {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "certificate")
-    private Collection<UsageHistory> usageHistories;
+    private Collection<UsageHistory> usageHistories ;
 
     public Collection<UsageHistory> getUsageHistories() {
         return usageHistories;

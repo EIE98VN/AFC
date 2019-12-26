@@ -1,8 +1,8 @@
 package vn.hust.edu.model;
 
-import vn.hust.edu.FareCalculate;
+import vn.hust.edu.service.FareCalculate;
 import vn.hust.edu.GeneralUtil;
-import vn.hust.edu.InLineFareCalculate;
+import vn.hust.edu.service.InLineFareCalculate;
 import vn.hust.edu.constant.Message;
 import vn.hust.edu.constant.Status;
 import vn.hust.edu.constant.Type;

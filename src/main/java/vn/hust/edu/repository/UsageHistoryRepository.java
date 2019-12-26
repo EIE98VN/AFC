@@ -1,13 +1,8 @@
 package vn.hust.edu.repository;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.query.Param;
 import vn.hust.edu.model.UsageHistory;
-
-import java.util.List;
 
 public interface UsageHistoryRepository
     extends PagingAndSortingRepository<UsageHistory, Integer>,

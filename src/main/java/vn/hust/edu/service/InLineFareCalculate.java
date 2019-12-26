@@ -1,9 +1,10 @@
-package vn.hust.edu;
+package vn.hust.edu.service;
 
 import vn.hust.edu.constant.Fare;
 import vn.hust.edu.model.Distance;
 import vn.hust.edu.model.Line;
 import vn.hust.edu.model.Station;
+import vn.hust.edu.service.FareCalculate;
 
 public class InLineFareCalculate implements FareCalculate {
 
